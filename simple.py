@@ -1,23 +1,18 @@
 import autogen
-import openai
-import os
 
-openai.api_version=os.getenv("OPENAI_API_VERSION")
-openai.api_base=os.getenv("OPENAI_API_BASE")
-openai.api_key=os.getenv("OPENAI_API_KEY")
-openai.api_type="azure"
-
-config_list_gpt4 = autogen.config_list_from_json(
-    "OAI_CONFIG_LIST",
+config_list = autogen.config_list_from_json(
+    env_or_file="OAI_CONFIG_LIST",
     filter_dict={
-        "model": ["gpt-4-0613"],
+        "model": ["codebooga-runpod"],
     },
 )
+
 gpt4_config = {
     "seed": 42,  # change the seed for different trials
     "temperature": 0,
-    "config_list": config_list_gpt4,
-    "request_timeout": 120,
+    "config_list": config_list,
+    "request_timeout": 600,
+    "use_cache": True,
 }
 
 user_proxy = autogen.UserProxyAgent(
